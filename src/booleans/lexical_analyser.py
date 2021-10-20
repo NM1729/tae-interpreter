@@ -2,7 +2,7 @@
 
 class LexicalAnalyser:
 
-    TOKENS = {"if": "IF", "then": "THEN", "else": "ELSE", "true": "TRUE", "false": "FALSE", "(": "OPPAR", ")": "CLPAR"}
+    TOKENS = {"if": "IF", "then": "THEN", "else": "ELSE", "true": "TRUE", "false": "FALSE", "(": "OPPAR", ")": "CLPAR", "everything else": "INV"}
 
     def __init__(self, sentence):
         self.sentence = sentence
@@ -39,7 +39,7 @@ class LexicalAnalyser:
     def _check_error(self):
 
         for token in self.tokens:
-            if token[1] == "INV":
+            if token == "INV":
                 return True
         
         return False
@@ -47,9 +47,9 @@ class LexicalAnalyser:
     def _assign_token(self, word):
 
         if word in self.TOKENS:
-            return (word, self.TOKENS[word])
+            return self.TOKENS[word]
         else:
-            return (word, "INV")
+            return "INV"
     
     def return_tokens(self):
 
