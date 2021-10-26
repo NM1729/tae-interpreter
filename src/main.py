@@ -1,6 +1,6 @@
-from booleans.lexical_analyser import LexicalAnalyser
-from booleans.AST import AST
-from booleans.evaluator import Evaluator
+from untypedarithmeticexpressions.lexical_analyser import LexicalAnalyser
+from untypedarithmeticexpressions.AST import AST
+from untypedarithmeticexpressions.evaluator import Evaluator
 
 def display_tree(tree):
 
@@ -9,6 +9,9 @@ def display_tree(tree):
         display_tree(tree.left)
         display_tree(tree.middle)
         display_tree(tree.right)
+    elif tree.value == "SUCC" or tree.value == "PRED" or tree.value == "ISZERO":
+        print(tree.value)
+        display_tree(tree.child)
     else:
         print(tree.value)
 
