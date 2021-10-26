@@ -1,5 +1,6 @@
 from untypedarithmeticexpressions.lexical_analyser import LexicalAnalyser
 from untypedarithmeticexpressions.AST import AST
+from typedarithmeticexpressions.typechecker import TypeChecker
 from untypedarithmeticexpressions.evaluator import Evaluator
 
 def display_tree(tree):
@@ -26,6 +27,11 @@ def main():
     syntax_tree = AST(tokens)
 
     tree = syntax_tree.construct()
+
+    type_checker = TypeChecker(tree)
+
+    if tree != None:
+        tree = type_checker.checkType()
 
     if tree != None:
         evaluator = Evaluator(tree)
