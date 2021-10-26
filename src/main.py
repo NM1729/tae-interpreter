@@ -1,11 +1,32 @@
 from booleans.lexical_analyser import LexicalAnalyser
+from booleans.AST import AST
+from booleans.evaluator import Evaluator
 
-sentence = input("Enter a term")
+def display_tree(tree):
 
-analyser = LexicalAnalyser(sentence)
+    if tree.value == "IF-THEN-ELSE":
+        print("IF-THEN-ELSE")
+        display_tree(tree.left)
+        display_tree(tree.middle)
+        display_tree(tree.right)
+    else:
+        print(tree.value)
 
-tokens = analyser.return_tokens()
+def main():
 
-if tokens != None:
-    for token in tokens:
-        print(token)
+    sentence = input("Enter a term")
+
+    analyser = LexicalAnalyser(sentence)
+
+    tokens = analyser.return_tokens()
+
+    syntax_tree = AST(tokens)
+
+    tree = syntax_tree.construct()
+
+    if tree != None:
+        evaluator = Evaluator(tree)
+        print(evaluator.evaluate())
+
+if __name__ == "__main__":
+    main()

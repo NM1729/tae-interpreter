@@ -13,11 +13,11 @@ class Evaluator:
         elif node.value == "FALSE":
             return "false"
         else:
-            guard = self._evaluateNode(node.if_part)
+            guard = self._evaluateNode(node.left)
             if guard == "true":
-                return self._evaluateNode(node.then_part)
+                return self._evaluateNode(node.middle)
             else:
-                return self._evaluateNode(node.else_part)
+                return self._evaluateNode(node.right)
     
     def evaluate(self):
         return self._evaluateNode(self.AST)

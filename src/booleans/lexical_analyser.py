@@ -14,25 +14,26 @@ class LexicalAnalyser:
         for character in self.sentence:
             token = ""
 
-            if character == "(":
+            if character == "(" or character == ")":
+                if word != "":
+                    token = self._assign_token(word)
+                    tokens.append(token)
+                    word = ""
                 token = self._assign_token(character)
                 tokens.append(token)
             
-            elif character == ")":
-                token = self._assign_token(word)
-                tokens.append(token)
-                word = ")"
-            
             elif character == " ":
-                token = self._assign_token(word)
-                word = ""
-                tokens.append(token)
+                if word != "":
+                    token = self._assign_token(word)
+                    word = ""
+                    tokens.append(token)
             
             else:
                 word += character
 
-        token = self._assign_token(word)
-        tokens.append(token)
+        if word != "":
+            token = self._assign_token(word)
+            tokens.append(token)
 
         self.tokens = tokens
     
