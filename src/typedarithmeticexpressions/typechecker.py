@@ -1,5 +1,4 @@
 #Given an AST we check the type of the term
-#An "invalid" type is added to indicate a type error, for simplicity
 
 class TypeChecker:
 
