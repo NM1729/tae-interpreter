@@ -22,7 +22,8 @@ class AST:
             "ZERO":productions.zeroproduction,
             "SUCC":productions.succproduction,
             "PRED":productions.predproduction,
-            "ISZERO":productions.iszeroproduction
+            "ISZERO":productions.iszeroproduction,
+            "OPPAR":productions.parenproduction
         }         
     
     def construct(self):

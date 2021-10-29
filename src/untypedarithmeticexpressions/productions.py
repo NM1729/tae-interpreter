@@ -14,9 +14,56 @@ class Productions:
             "PRED":self.predproduction,
             "ISZERO":self.iszeroproduction,
             "OPPAR":self.parenproduction
-        }
+        } 
+    
+    def nochildproduction(self, index, value):
+        
+        root = TermNode(value)
+        rule = [value]
 
+        for term in rule:
+            
+            if index == -1 or index >= len(self.tokens):
+                return None, -1
+            else:
+                token = self.tokens[index]
 
+            if term == token:
+                index += 1
+            else:
+                return None, -1
+        
+        return root, index
+    
+    def onechildproduction(self, index, value):
+
+        rule = [value, "A"]
+
+        root = SuccNode(value)
+
+        for term in rule:
+
+            if index == -1 or index >= len(self.tokens):
+                print("Invalid index")
+                return None, -1
+            else:
+                token = self.tokens[index]
+
+            if token == term:
+                index += 1
+            elif term == "A":
+                node, index = self.productions[self.tokens[index]](index)
+                root.child = node
+            else:
+                print("Invalid term")
+                return None, -1
+            
+        if root.child == None:
+            print("Invalid root")
+            return None, -1
+        else:
+            return root, index
+    
     def ifproduction(self, index):  
 
         root = IfNode()
@@ -71,63 +118,6 @@ class Productions:
         
         return root, index
 
-    def trueproduction(self, index):
-
-        root = TermNode("TRUE")
-        rule = ["TRUE"]
-
-        for term in rule:
-            
-            if index == -1 or index >= len(self.tokens):
-                return None, -1
-            else:
-                token = self.tokens[index]
-
-            if term == token:
-                index += 1
-            else:
-                return None, -1
-        
-        return root, index
-
-    def falseproduction(self, index):
-        
-        root = TermNode("FALSE")
-        rule = ["FALSE"]
-
-        for term in rule:
-            
-            if index == -1 or index >= len(self.tokens):
-                return None, -1
-            else:
-                token = self.tokens[index]
-
-            if term == token:
-                index += 1
-            else:
-                return None, -1
-        
-        return root, index
-
-    def zeroproduction(self, index):
-        
-        root = TermNode("ZERO")
-        rule = ["ZERO"]
-
-        for term in rule:
-            
-            if index == -1 or index >= len(self.tokens):
-                return None, -1
-            else:
-                token = self.tokens[index]
-
-            if term == token:
-                index += 1
-            else:
-                return None, -1
-        
-        return root, index
-
     def parenproduction(self, index):
         
         paren_open = False
@@ -165,86 +155,27 @@ class Productions:
             return None, -1
         
         return node, index
+    
+    def trueproduction(self, index):
 
+        return self.nochildproduction(index, "TRUE")
+    
+    def falseproduction(self, index):
+
+        return self.nochildproduction(index, "FALSE")
+    
+    def zeroproduction(self, index):
+
+        return self.nochildproduction(index, "ZERO")
+    
     def succproduction(self, index):
 
-        rule = ["SUCC", "A"]
-
-        root = SuccNode("SUCC")
-
-        for term in rule:
-
-            if index == -1 or index >= len(self.tokens):
-                print("Invalid index")
-                return None, -1
-            else:
-                token = self.tokens[index]
-
-            if token == term:
-                index += 1
-            elif term == "A":
-                node, index = self.productions[self.tokens[index]](index)
-                root.child = node
-            else:
-                print("Invalid term")
-                return None, -1
-            
-        if root.child == None:
-            print("Invalid root")
-            return None, -1
-        else:
-            return root, index
-
+        return self.onechildproduction(index, "SUCC")
+    
     def predproduction(self, index):
 
-        rule = ["PRED", "A"]
-
-        root = SuccNode("PRED")
-
-        for term in rule:
-
-            if index == -1 or index >= len(self.tokens):
-                return None, -1
-            else:
-                token = self.tokens[index]
-
-            if token == term:
-                index += 1
-            elif term == "A":
-                node, index = self.productions[self.tokens[index]](index)
-                root.child = node
-            else:
-                return None, -1
-            
-        if root.child == None:
-            print("Invalid root")
-            return None, -1
-        else:
-            return root, index
-        
+        return self.onechildproduction(index, "PRED")
+    
     def iszeroproduction(self, index):
 
-        rule = ["ISZERO", "A"]
-
-        root = SuccNode("ISZERO")
-
-        for term in rule:
-
-            if index == -1 or index >= len(self.tokens):
-                return None, -1
-            else:
-                token = self.tokens[index]
-
-            if token == term:
-                index += 1
-            elif term == "A":
-                node, index = self.productions[self.tokens[index]](index)
-                root.child = node
-            else:
-                return None, -1
-            
-        if root.child == None:
-            print("Invalid root")
-            return None, -1
-        else:
-            return root, index
+        return self.onechildproduction(index, "ISZERO")
