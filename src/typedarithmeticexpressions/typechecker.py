@@ -18,7 +18,9 @@ class TypeChecker:
             if node.child != "TypeError":
                 child = self._checkNodeType(node.child)
 
-                if child.type == "Nat":
+                if child == "TypeError":
+                    return "TypeError"
+                elif child.type == "Nat":
                     node.type = "Nat"
                 else:
                     return "TypeError"
@@ -30,7 +32,9 @@ class TypeChecker:
             if node.child != "TypeError":
                 child = self._checkNodeType(node.child)
 
-                if child.type == "Nat":
+                if child == "TypeError":
+                    return "TypeError"
+                elif child.type == "Nat":
                     node.type = "Bool"
                 else:
                     return "TypeError"
@@ -41,11 +45,17 @@ class TypeChecker:
             if node.left != "TypeError" and node.right != "TypeError" and node.middle != "TypeError":
                 
                 guard = self._checkNodeType(node.left)
-                if guard.type == "Bool":
+                
+                if guard == "TypeError":
+                    return "TypeError"
+                
+                elif guard.type == "Bool":    
                     then = self._checkNodeType(node.middle)
                     els = self._checkNodeType(node.right)
 
-                    if then.type == els.type:
+                    if then == "TypeError" or els == "TypeError":
+                        return "TypeError"
+                    elif then.type == els.type:
                         node.type = then.type
                     else:
                         return "TypeError"

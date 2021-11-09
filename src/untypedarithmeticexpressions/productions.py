@@ -44,7 +44,6 @@ class Productions:
         for term in rule:
 
             if index == -1 or index >= len(self.tokens):
-                print("Invalid index")
                 return None, -1
             else:
                 token = self.tokens[index]
@@ -52,14 +51,15 @@ class Productions:
             if token == term:
                 index += 1
             elif term == "A":
-                node, index = self.productions[self.tokens[index]](index)
-                root.child = node
+                if self.tokens[index] in self.productions:
+                    node, index = self.productions[self.tokens[index]](index)
+                    root.child = node
+                else:
+                    return None, -1
             else:
-                print("Invalid term")
                 return None, -1
             
         if root.child == None:
-            print("Invalid root")
             return None, -1
         else:
             return root, index
@@ -143,7 +143,10 @@ class Productions:
                 index += 1
             
             elif term == "A":
-                node, index = self.productions[self.tokens[index]](index)
+                if self.tokens[index] in self.productions:
+                    node, index = self.productions[self.tokens[index]](index)
+                else:
+                    return None, -1
             
             else:
                 return None, -1
