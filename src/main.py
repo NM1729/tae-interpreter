@@ -1,6 +1,6 @@
 from untypedarithmeticexpressions.lexical_analyser import LexicalAnalyser
 from untypedarithmeticexpressions.AST import AST
-from typedarithmeticexpressions.typechecker import TypeChecker
+from typedarithmeticexpressions.typechecker2 import TypeChecker
 from untypedarithmeticexpressions.evaluator import Evaluator
 
 def display_tree(tree):
@@ -18,24 +18,36 @@ def display_tree(tree):
 
 def main():
 
-    sentence = input("Enter a term")
+    sentence = ""
+    print("Enter a term(enter quit to exit)")
 
-    analyser = LexicalAnalyser(sentence)
+    while(sentence != "quit"):
 
-    tokens = analyser.return_tokens()
+        sentence = input()
 
-    syntax_tree = AST(tokens)
+        if sentence != "quit" and sentence != "":
 
-    tree = syntax_tree.construct()
+            analyser = LexicalAnalyser(sentence)
 
-    type_checker = TypeChecker(tree)
+            tokens = analyser.return_tokens()
 
-    if tree != None:
-        tree = type_checker.checkType()
+            syntax_tree = AST(tokens)
 
-    if tree != None:
-        evaluator = Evaluator(tree)
-        print(evaluator.evaluate())
+            if tokens != None:
+                tree = syntax_tree.construct()
+            else:
+                tree = None
+
+            type_checker = TypeChecker(tree)
+
+            if tree != None:
+                tree = type_checker.checkType()
+
+            if tree != None:
+                evaluator = Evaluator(tree)
+                print(evaluator.evaluate())
+        
+        print("")
 
 if __name__ == "__main__":
     main()
